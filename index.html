@@ -3,86 +3,135 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Manrope:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap">
 <style>
-/* Layout: sticky segmented tabs over a 1–2 column grid of exercise cards; each card = two-frame schematic (start → finish) + steps */
+/* Layout: pink-lilac hero → sticky pill tabs → 1–2 column grid of white cards; each card = thin day-style number, blue title, pale-blue chips, two pink-studio illustration panels, steps, tip with lime label */
 :root{
-  --bg:#F1F4F2; --card:#FFFFFF; --panel:#F6F8F7; --fg:#1C2428; --muted:#5D696F; --line:#D6DDD9;
-  --fig:#1F2B33; --fig2:#A7B2B8; --eq:#8E999E; --eqd:#5E696F; --acc:#2D5AD6; --accsoft:#E4EAFB; --mat:#E2E8E4;
-  --display:"Unbounded","Arial Black",system-ui,sans-serif;
-  --body:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --bg:#FAF7FD; --card:#FFFFFF; --soft:#EEF2FD; --fg:#1F2342; --muted:#6C7193; --line:#E5E8F5; --glass:rgba(255,255,255,.66);
+  --blue:#2F6BEA; --blueink:#2558CC; --onblue:#FFFFFF;
+  --lime:#E4F39B; --limeink:#3A4310;
+  --hero1:#F6D2EE; --hero2:#E6D7FB; --hero3:#FCEBE6;
+  --pan1:#F7E0F2; --pan2:#E9E3FB;
+  --fig:#1F2342; --fig2:#B8B3D3; --eq:#D2CDE6; --eqd:#8D89AF; --mat:#E4D2EE; --acc:#2F6BEA;
+  --shadow:0 2px 6px rgba(47,60,140,.05),0 12px 30px rgba(47,60,140,.08);
+  --font:"Montserrat",system-ui,-apple-system,"Segoe UI",sans-serif;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#101417; --card:#182024; --panel:#1D262B; --fg:#E6ECEE; --muted:#98A4AA; --line:#2B353A;
-  --fig:#E8EEF0; --fig2:#5B676E; --eq:#6E7A80; --eqd:#9CA8AE; --acc:#7E9EFF; --accsoft:#1E2946; --mat:#252E33; color-scheme:dark}}
+  --bg:#0E1022; --card:#171A31; --soft:#20264A; --fg:#ECEEFA; --muted:#A0A5C6; --line:#282C4A; --glass:rgba(14,16,34,.45);
+  --blue:#82A5FF; --blueink:#AFC4FF; --onblue:#0E1022;
+  --lime:#CADB6E; --limeink:#1B210A;
+  --hero1:#46264F; --hero2:#2B2A5C; --hero3:#3B2434;
+  --pan1:#27213D; --pan2:#1F2342;
+  --fig:#ECEEFA; --fig2:#5E6189; --eq:#3A3E63; --eqd:#7F84AB; --mat:#2D2C4B; --acc:#82A5FF;
+  --shadow:0 2px 6px rgba(0,0,0,.25),0 12px 30px rgba(0,0,0,.25); color-scheme:dark}}
 :root[data-theme="dark"]{
-  --bg:#101417; --card:#182024; --panel:#1D262B; --fg:#E6ECEE; --muted:#98A4AA; --line:#2B353A;
-  --fig:#E8EEF0; --fig2:#5B676E; --eq:#6E7A80; --eqd:#9CA8AE; --acc:#7E9EFF; --accsoft:#1E2946; --mat:#252E33; color-scheme:dark}
+  --bg:#0E1022; --card:#171A31; --soft:#20264A; --fg:#ECEEFA; --muted:#A0A5C6; --line:#282C4A; --glass:rgba(14,16,34,.45);
+  --blue:#82A5FF; --blueink:#AFC4FF; --onblue:#0E1022;
+  --lime:#CADB6E; --limeink:#1B210A;
+  --hero1:#46264F; --hero2:#2B2A5C; --hero3:#3B2434;
+  --pan1:#27213D; --pan2:#1F2342;
+  --fig:#ECEEFA; --fig2:#5E6189; --eq:#3A3E63; --eqd:#7F84AB; --mat:#2D2C4B; --acc:#82A5FF;
+  --shadow:0 2px 6px rgba(0,0,0,.25),0 12px 30px rgba(0,0,0,.25); color-scheme:dark}
 *{box-sizing:border-box}
-body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:15px;line-height:1.5}
+body{background:var(--bg);color:var(--fg);font-family:var(--font);font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
 .wrap{max-width:1080px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
-header.wrap{padding-block:28px 14px;display:grid;gap:10px}
-h1{font-family:var(--display);font-weight:700;font-size:clamp(26px,5vw,38px);line-height:1.1;margin:0;letter-spacing:-.01em;text-wrap:balance}
-.lead{margin:0;color:var(--muted);max-width:62ch}
-.legend{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:13px;color:var(--muted);margin-top:2px}
+header.wrap{padding-block:16px 4px}
+.hero{border-radius:30px;padding:clamp(22px,4.5vw,44px);display:grid;gap:16px;position:relative;overflow:hidden;
+  background:linear-gradient(165deg,var(--hero1) 0%,var(--hero2) 58%,var(--hero3) 100%)}
+@media (max-width:760px){.hero::after{display:none}}
+.hero::after{content:"сила";position:absolute;right:-.04em;top:-.2em;font-weight:700;font-size:clamp(90px,17vw,190px);line-height:1;letter-spacing:-.04em;color:transparent;-webkit-text-stroke:1.5px var(--glass);pointer-events:none}
+.hero>*{position:relative;z-index:1}
+.eyebrow{font-size:11.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase}
+h1{font-weight:700;font-size:clamp(34px,7vw,62px);line-height:1;letter-spacing:-.035em;margin:0;color:var(--blue);text-wrap:balance}
+.lead{margin:0;max-width:54ch;font-size:15.5px}
+.stats{display:flex;flex-wrap:wrap;gap:8px}
+.stat{background:var(--glass);border-radius:999px;padding:7px 14px;font-weight:600;font-size:13px;color:var(--blueink);font-variant-numeric:tabular-nums}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12.5px}
 .legend span{display:inline-flex;align-items:center;gap:7px}
-.sw{width:22px;height:7px;border-radius:4px;display:inline-block}
-nav.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
-.tabrow{display:flex;gap:6px;padding-block:10px;overflow-x:auto}
-.tab{font:inherit;cursor:pointer;border:1px solid var(--line);background:var(--card);color:var(--fg);border-radius:999px;padding:8px 16px;display:inline-flex;align-items:baseline;gap:8px;white-space:nowrap}
-.tab b{font-family:var(--display);font-weight:700;font-size:15px}
-.tab small{color:var(--muted);font-size:13px}
-.tab[aria-selected="true"]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
-.tab[aria-selected="true"] small{color:var(--bg);opacity:.75}
-.tab:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
-main.wrap{padding-block:20px 48px}
-.intro{display:grid;gap:4px;margin-bottom:18px}
-.intro h2{font-family:var(--display);font-weight:500;font-size:22px;margin:0}
+.sw{width:20px;height:7px;border-radius:4px;display:inline-block}
+nav.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg)}
+.tabrow{display:flex;gap:8px;padding-block:12px;overflow-x:auto;scrollbar-width:none}
+.tab{font:inherit;cursor:pointer;border:0;background:var(--card);color:var(--blue);border-radius:999px;padding:10px 18px;display:inline-flex;align-items:baseline;gap:8px;white-space:nowrap;box-shadow:var(--shadow);transition:background .2s,color .2s}
+.tab b{font-weight:700;font-size:15px}
+.tab small{color:var(--muted);font-size:12.5px;font-weight:500}
+.tab[aria-selected="true"]{background:var(--blue);color:var(--onblue)}
+.tab[aria-selected="true"] small{color:var(--onblue);opacity:.8}
+.tab:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+main.wrap{padding-block:12px 56px}
+.intro{display:grid;gap:6px;margin-bottom:20px}
+.intro .eyebrow{color:var(--muted)}
+.intro h2{font-weight:700;font-size:clamp(26px,4vw,36px);letter-spacing:-.03em;line-height:1.05;margin:0;color:var(--blue)}
 .intro p{margin:0;color:var(--muted);max-width:68ch}
-.grid{display:grid;grid-template-columns:1fr;gap:14px}
+.grid{display:grid;grid-template-columns:1fr;gap:16px}
 @media (min-width:780px){.grid{grid-template-columns:1fr 1fr}}
-.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;display:grid;gap:12px;align-content:start;min-width:0}
-.chead{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:start}
-.num{font-family:var(--display);font-weight:700;font-size:14px;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:var(--accsoft);color:var(--acc);font-variant-numeric:tabular-nums}
-.chead h3{margin:0;font-size:17px;line-height:1.25;font-weight:700;text-wrap:balance}
-.en{margin:2px 0 0;font-size:13px;color:var(--muted)}
-.dose{font-size:13px;font-weight:700;white-space:nowrap;padding:4px 10px;border-radius:999px;border:1px solid var(--line);font-variant-numeric:tabular-nums}
-.frames{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:4px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:18px;display:grid;gap:14px;align-content:start;min-width:0;box-shadow:var(--shadow)}
+.chead{display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:start}
+.num{display:grid;justify-items:center;color:var(--blue);line-height:1;min-width:30px}
+.num b{font-weight:300;font-size:32px;font-variant-numeric:tabular-nums}
+.num small{font-size:8.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;margin-top:3px}
+.chead h3{margin:2px 0 0;font-size:18px;line-height:1.22;font-weight:700;letter-spacing:-.015em;color:var(--blue);text-wrap:balance}
+.en{margin:3px 0 0;font-size:12.5px;color:var(--muted)}
+.dose{font-size:13px;font-weight:600;white-space:nowrap;padding:7px 12px;border-radius:999px;background:var(--soft);color:var(--blueink);font-variant-numeric:tabular-nums}
+.frames{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:6px}
 .frames.one{grid-template-columns:minmax(0,60%);justify-content:center}
-figure{margin:0;display:grid;gap:4px;min-width:0}
-figure svg{width:100%;height:auto;display:block;background:var(--panel);border-radius:12px}
-figcaption{font-size:12px;color:var(--muted);text-align:center;letter-spacing:.02em}
-.arr{color:var(--muted);font-size:18px;padding-bottom:20px}
-.how{margin:0;padding-left:20px;display:grid;gap:4px}
-.how li::marker{color:var(--muted);font-variant-numeric:tabular-nums}
-.tip{margin:0;font-size:14px;padding:10px 12px;border-radius:10px;background:var(--accsoft)}
+figure{margin:0;display:grid;gap:6px;min-width:0}
+figure svg{width:100%;height:auto;display:block;background:linear-gradient(170deg,var(--pan1),var(--pan2));border-radius:18px}
+figcaption{font-size:10.5px;color:var(--muted);text-align:center;letter-spacing:.12em;text-transform:uppercase;font-weight:600}
+.arr{color:var(--blue);font-size:18px;padding-bottom:22px}
+.how{margin:0;padding-left:20px;display:grid;gap:5px}
+.how li::marker{color:var(--blue);font-weight:600;font-variant-numeric:tabular-nums}
+.tip{margin:0;font-size:14px;padding:12px 14px;border-radius:16px;background:var(--soft)}
+.tip b{display:inline-block;background:var(--lime);color:var(--limeink);font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:3px 9px;border-radius:999px;margin-right:6px;vertical-align:1px}
 .foot{color:var(--muted);font-size:13px;margin-top:24px;max-width:70ch}
+.mus{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.chip{font-size:12.5px;line-height:1.2;padding:5px 11px;border-radius:999px;border:1px solid var(--line);color:var(--muted);font-style:normal;white-space:nowrap}
+.chip.main{background:var(--soft);border-color:transparent;color:var(--blueink);font-weight:600}
+.legend .chip{padding:2px 9px;font-size:12px;background:var(--glass);border-color:transparent}
+.legend .chip.main{background:var(--soft)}
+.lvl{color:var(--blue);font-weight:600;letter-spacing:.04em;white-space:nowrap}
+.pickbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0 0 16px}
+#pcount{font-weight:700;margin-right:4px;color:var(--blue)}
+.pbtn{font:inherit;font-size:13px;font-weight:600;cursor:pointer;border:1.5px solid var(--blue);background:transparent;color:var(--blue);border-radius:999px;padding:7px 14px}
+.pbtn[aria-pressed="true"]{background:var(--blue);color:var(--onblue)}
+.pick{justify-self:center;font:inherit;font-weight:600;font-size:14px;cursor:pointer;border:1.5px solid var(--blue);color:var(--blue);background:transparent;border-radius:999px;padding:10px 26px;transition:transform .15s}
+.pick:active{transform:scale(.97)}
+.pick[aria-pressed="true"]{background:var(--blue);color:var(--onblue)}
+.pick:focus-visible,.pbtn:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.card.picked{outline:2px solid var(--blue);outline-offset:-1px}
+.empty{color:var(--muted);padding:24px 0}
+@media (prefers-reduced-motion:reduce){.tab,.pick{transition:none}}
 /* svg */
 .lb{fill:none;stroke-linecap:round;stroke-linejoin:round}
 .fig{stroke:var(--fig)} .fig2{stroke:var(--fig2)}
 .torsoF{fill:var(--fig)}
 .head{fill:var(--fig)}
-.floor{stroke:var(--line);stroke-width:1.5}
+.floor{stroke:var(--eq);stroke-width:1.5}
 .eq{fill:var(--eq)} .eqd{fill:var(--eqd)} .mat{fill:var(--mat)} .wall{fill:var(--mat)}
 .cb{stroke:var(--eqd);stroke-width:1.4} .dash{stroke-dasharray:3 3}
 .bar{stroke:var(--eqd);stroke-width:3.5;stroke-linecap:round}
 .post{stroke:var(--eqd);stroke-width:4;stroke-linecap:round}
-.pul{fill:var(--panel);stroke:var(--eqd);stroke-width:2}
-.wt{fill:var(--acc)} .plate{fill:var(--acc);fill-opacity:.9} .hub{fill:var(--panel)}
+.pad{stroke:var(--eq);stroke-width:8;stroke-linecap:round}
+.plat{stroke:var(--eqd);stroke-width:6;stroke-linecap:round}
+.wt{fill:var(--acc)} .plate{fill:var(--acc);fill-opacity:.9} .hub{fill:var(--card)}
 .hl{fill:var(--acc);fill-opacity:.22;stroke:var(--acc);stroke-width:1.5}
-.lbl{fill:var(--muted);font-size:10px;font-family:var(--body)}
-@media (prefers-reduced-motion:no-preference){.card{transition:border-color .2s}}
+.lbl{fill:var(--muted);font-size:10px;font-family:var(--font)}
 </style>
 
 <header class="wrap">
-  <h1>Атлас упражнений</h1>
-  <p class="lead">Схемы к плану тренировок: слева исходное положение, справа конечное. Названия в скобках — как упражнение обычно называют в зале.</p>
-  <div class="legend">
-    <span><i class="sw" style="background:var(--fig)"></i>ближние рука и нога</span>
-    <span><i class="sw" style="background:var(--fig2)"></i>дальние рука и нога</span>
-    <span><i class="sw" style="background:var(--acc)"></i>вес</span>
-    <span><i class="sw" style="background:var(--eq)"></i>тренажёр, скамья, трос</span>
+  <div class="hero">
+    <span class="eyebrow">Мой план тренировок</span>
+    <h1>Атлас упражнений</h1>
+    <p class="lead">Схемы ко всем тренировкам: слева исходное положение, справа конечное. Мелким шрифтом — как упражнение обычно называют в зале.</p>
+    <div class="stats" id="stats"></div>
+    <div class="legend">
+      <span><i class="sw" style="background:var(--fig)"></i>ближние рука и нога</span>
+      <span><i class="sw" style="background:var(--fig2)"></i>дальние рука и нога</span>
+      <span><i class="sw" style="background:var(--acc)"></i>вес</span>
+      <span><i class="sw" style="background:var(--eqd)"></i>тренажёр, скамья</span>
+      <span><i class="chip main">мышцы</i>основная нагрузка</span>
+      <span><i class="chip">мышцы</i>помогают</span>
+    </div>
   </div>
 </header>
 <nav class="tabs" aria-label="Тренировки"><div class="wrap tabrow" role="tablist" id="tabs"></div></nav>
@@ -101,9 +150,10 @@ function solve(P){
   const n=go(p,P.t,L.torso), h=go(n,P.hd??P.t,L.neck);
   const A1=P.a1, A2=P.a2||P.a1, L1=P.l1, L2=P.l2||P.l1;
   const s1=[n[0]+sw,n[1]], s2=[n[0]-sw,n[1]], hp1=[hw,0], hp2=[-hw,0];
-  const e1=go(s1,A1[0],L.ua), w1=go(e1,A1[1],L.fa), e2=go(s2,A2[0],L.ua), w2=go(e2,A2[1],L.fa);
-  const k1=go(hp1,L1[0],L.th), a1=go(k1,L1[1],L.sh), t1=go(a1,L1[2]??0,L.foot);
-  const k2=go(hp2,L2[0],L.th), a2=go(k2,L2[1],L.sh), t2=go(a2,L2[2]??0,L.foot);
+  const ua=P.ua??L.ua, fa=P.fa??L.fa, th=P.thl??L.th;
+  const e1=go(s1,A1[0],ua), w1=go(e1,A1[1],fa), e2=go(s2,A2[0],ua), w2=go(e2,A2[1],fa);
+  const k1=go(hp1,L1[0],th), a1=go(k1,L1[1],L.sh), t1=go(a1,L1[2]??0,L.foot);
+  const k2=go(hp2,L2[0],th), a2=go(k2,L2[1],L.sh), t2=go(a2,L2[2]??0,L.foot);
   return {p,n,h,s1,s2,hp1,hp2,e1,w1,e2,w2,k1,a1,t1,k2,a2,t2};
 }
 function shift(J,dx,dy){for(const k in J)J[k]=[J[k][0]+dx,J[k][1]+dy];}
@@ -165,59 +215,80 @@ const BRIDGE={name:'Ягодичный мост',en:'Glute bridge',dose:'15 ра
   how:['Лягте на спину, стопы на полу на ширине таза, руки вдоль тела.','Толкаясь пятками, поднимите таз до прямой линии от плеч до колен.','Сожмите ягодицы на секунду и медленно опуститесь.'],
   tip:'поднимайте таз ягодицами, а не прогибом в пояснице.',
   frames:[SUP,BRIDGE_UP],props:matOnly};
+const INCL={t:-35,hd:-28,a1:[90,90],a2:[92,92],l1:[112,98,0],l2:[115,100,0]};
+const inclBench=J=>{const d=[Math.cos(-35*RAD),Math.sin(-35*RAD)],nv=[-d[1],d[0]],o=12;
+  const A=[J.p[0]+nv[0]*o-d[0]*12,J.p[1]+nv[1]*o-d[1]*12],B=[J.n[0]+nv[0]*o-d[0]*16,J.n[1]+nv[1]*o-d[1]*16],M=[(A[0]+B[0])/2,(A[1]+B[1])/2];
+  return{b:ln(M,[M[0],FLOOR-3],'post')+ln(A,[A[0]-3,FLOOR-3],'post')+rc(A[0]-14,FLOOR-4,(M[0]+12)-(A[0]-14),4,'eqd',1)+ln(A,B,'pad')};};
+const seatProps=(J,top)=>{const px=J.p[0],py=J.p[1],t=top??J.n[1]-4;
+  return rc(px-18,py+7,36,6)+rc(px-21,t,6,py+13-t)+rc(px-3,py+13,6,FLOOR-py-13,'eq',1)+rc(px-24,FLOOR-4,48,4,'eq',1);};
+const HIGHPLANK={t:-26.8,a1:[90,90],a2:[91,91],l1:[153.2,153.2,110],l2:[153.6,153.6,110]};
 
 const TABS=[
 {id:'a',label:'А',sub:'спина + ноги',title:'Тренировка А',
- intro:'Перед началом 8–10 минут разминки: дорожка, «кошка-корова», ягодичный мост. Отдых между подходами 60–90 секунд.',
+ intro:'Перед началом 8–10 минут разминки: дорожка, «кошка-корова», ягодичный мост. Отдых между подходами 60–90 секунд. Вес в тренажёрах подбирайте так, чтобы последние 2 повтора давались тяжело.',
  items:[
- {name:'Тяга верхнего блока к груди',en:'Lat pulldown',dose:'3 × 10–12',
-  how:['Сядьте, зафиксируйте бёдра под валиком, возьмитесь за рукоять чуть шире плеч.','Слегка отклонитесь назад и тяните рукоять к верхней части груди, опуская лопатки вниз.','Медленно верните руки вверх.'],
-  tip:'не тяните за голову и не раскачивайтесь корпусом.',
-  frames:[{t:-100,a1:[-80,-85],a2:[-76,-82],l1:[0,90],l2:[2,92]},{t:-100,a1:[110,-60],a2:[106,-58],l1:[0,90],l2:[2,92]}],pad:[30,0],
-  props:J=>{const px=J.p[0],py=J.p[1],T=-16;
-   return{b:column(px-40)+rc(px-40,T-3,44,6,'eq',2)+rc(px-20,py+7,36,6)+rc(px-3,py+13,6,FLOOR-py-13,'eq',1)+rc(px-26,FLOOR-4,52,4,'eq',1)+rc(J.k1[0]-13,J.k1[1]-15,15,8,'eqd',4),
-    f:ln([px,T],J.w1)+pulley([px,T])+ln([J.w1[0]-15,J.w1[1]],[J.w1[0]+12,J.w1[1]],'bar')};}},
- {name:'Тяга горизонтального блока',en:'Seated cable row',dose:'3 × 10–12',
-  how:['Сядьте, упритесь стопами в платформу, колени слегка согнуты.','С прямой спиной тяните рукоять к низу живота, отводя локти назад вдоль тела.','Сведите лопатки, затем плавно выпрямите руки.'],
-  tip:'спина не округляется, корпус почти неподвижен.',
-  frames:[{t:-80,a1:[8,4],a2:[10,6],l1:[-15,15,-90],l2:[-13,17,-88],gap:20},{t:-97,a1:[150,0],a2:[146,2],l1:[-15,15,-90],l2:[-13,17,-88],gap:20}],
-  anchor:'a1',pad:[0,34],
-  props:J=>{const a=J.a1,p=J.p,sy=FLOOR-20,pl=[a[0]+24,a[1]-6];
-   return{b:rc(p[0]-32,sy,(a[0]-2)-(p[0]-32),6)+rc(p[0]-28,sy+6,4,14,'eq',1)+rc(a[0]-12,sy+6,4,14,'eq',1)+rc(a[0]+5,a[1]-16,5,24,'eqd',1.5)+column(a[0]+28),
-    f:ln(pl,J.w1)+pulley(pl)+ln([J.w1[0],J.w1[1]-6],[J.w1[0],J.w1[1]+6],'bar')};}},
- {name:'Гоблет-присед',en:'Goblet squat — присед с гантелью у груди',dose:'3 × 10–12',
-  how:['Держите гантель вертикально у груди двумя руками, стопы чуть шире плеч.','Отводите таз назад и вниз, как будто садитесь на стул. Колени смотрят туда же, куда носки.','Опуститесь до параллели бёдер с полом или насколько комфортно и встаньте, толкаясь пятками.'],
-  tip:'пятки не отрываются от пола, спина прямая.',
-  frames:[{...STAND,a1:[80,-60],a2:[82,-58]},{t:-62,a1:[60,-70],a2:[62,-68],l1:[10,105],l2:[12,107]}],anchor:'a1',
-  props:J=>({f:db(J.w1,true)})},
+ {name:'Гравитрон',en:'Assisted pull-up — подтягивания с противовесом',dose:'3 × 8–10',
+  how:['Выставьте противовес: чем он больше, тем легче. Для начала подойдёт 30–40 кг.','Встаньте коленями на платформу и возьмитесь за рукояти чуть шире плеч.','Подтянитесь, опуская лопатки вниз, пока подбородок не окажется над рукоятями. Опуститесь медленно.'],
+  tip:'со временем уменьшайте противовес — это и есть прогресс. Не раскачивайтесь и не «бросайте» себя вниз.',
+  mus:[['широчайшие мышцы спины'],['бицепс','мышцы между лопатками','мышцы пресса']],
+  frames:[{t:-90,a1:[-88,-90],a2:[-92,-90],l1:[90,180,180],l2:[92,180,180],gap:8},{t:-90,a1:[95,-85],a2:[98,-88],l1:[90,180,180],l2:[92,180,180],gap:56}],
+  labels:['руки прямые','подтянуться'],pad:[0,18],
+  props:J=>{const cx=J.w1[0]+18,py=J.k1[1]+4.5,x1=J.t1[0]-4,x2=J.k1[0]+9,mid=(x1+x2)/2;
+   return{b:rc(cx-3,-18,6,FLOOR+18,'eq',2)+ln([cx,J.w1[1]],[J.w1[0],J.w1[1]],'bar')+ln([mid,py+4],[mid,FLOOR-3],'post')+rc(mid-16,FLOOR-4,32,4,'eqd',1)+rc(x1,py,x2-x1,5,'eqd',2)};}},
+ {name:'Тяга в рычажном тренажёре сидя',en:'Seated row machine — с упором грудью',dose:'3 × 10–12',
+  how:['Отрегулируйте сиденье так, чтобы рукояти были на уровне низа груди, и упритесь грудью в подушку.','Возьмитесь за рукояти и тяните их к себе, отводя локти назад вдоль корпуса.','Сведите лопатки, задержитесь на секунду и плавно верните руки вперёд.'],
+  tip:'грудь не отрывается от подушки, плечи не поднимаются к ушам.',
+  mus:[['середина спины','широчайшие мышцы спины'],['бицепс','задняя часть плеч']],
+  frames:[{t:-90,a1:[2,2],a2:[4,4],l1:[0,90],l2:[2,92]},{t:-90,a1:[160,10],a2:[157,12],l1:[0,90],l2:[2,92]}],pad:[0,22],
+  props:J=>{const px=J.p[0],py=J.p[1],cx=J.n[0]+64,pv=[cx,J.n[1]-14];
+   return{b:rc(px-18,py+7,36,6)+rc(px-3,py+13,6,FLOOR-py-13,'eq',1)+rc(px-24,FLOOR-4,48,4,'eq',1)+rc(J.n[0]+9,J.n[1]+9,7,30,'eqd',3)+rc(cx-3,pv[1]-6,6,FLOOR-pv[1]+6,'eq',2),
+    f:ln(J.w1,pv,'post')+ln([J.w1[0],J.w1[1]-7],[J.w1[0],J.w1[1]+7],'bar')};}},
+ {name:'Жим ногами',en:'Leg press',dose:'3 × 10–12',
+  how:['Сядьте, прижмите поясницу к спинке. Стопы на платформе на ширине плеч, в её середине.','Снимите платформу с упоров и опускайте её, сгибая колени примерно до 90°.','Выжмите платформу вверх, не выпрямляя колени до конца.'],
+  tip:'поясница и таз не отрываются от спинки. Колени смотрят туда же, куда носки.',
+  mus:[['передняя поверхность бедра','ягодицы'],['задняя поверхность бедра','внутренняя поверхность бедра']],
+  frames:[{t:-138,a1:[60,25],a2:[62,27],l1:[-80,-10,-125],l2:[-78,-8,-123],gap:28},{t:-138,a1:[60,25],a2:[62,27],l1:[-46,-40,-130],l2:[-44,-38,-128],gap:28}],
+  labels:['колени согнуты','выжать'],
+  props:J=>{const d=[Math.cos(-138*RAD),Math.sin(-138*RAD)],nv=[d[1],-d[0]],p=J.p,u=[.707,-.707],v=[.707,.707];
+   const r0=[p[0]+20,p[1]],r1=[r0[0]+u[0]*85,r0[1]+u[1]*85],c=[J.a1[0]+u[0]*5,J.a1[1]+u[1]*5];
+   return{b:ln(r0,r1,'post')+ln(r0,[r0[0],FLOOR-3],'post')+ln(r1,[r1[0],FLOOR-3],'post')+rc(p[0]-20,FLOOR-4,r1[0]-p[0]+26,4,'eqd',1)
+     +rc(p[0]-18,p[1]+7,34,6)+rc(p[0]-3,p[1]+13,6,FLOOR-p[1]-13,'eq',1)
+     +ln([p[0]+nv[0]*11-d[0]*4,p[1]+nv[1]*11-d[1]*4],[J.n[0]+nv[0]*11,J.n[1]+nv[1]*11],'pad')
+     +ln([c[0]-v[0]*14,c[1]-v[1]*14],[c[0]+v[0]*14,c[1]+v[1]*14],'plat')};}},
  {name:'Румынская тяга с гантелями',en:'Romanian deadlift',dose:'3 × 10–12',
   how:['Встаньте прямо, гантели перед бёдрами, колени чуть согнуты.','Отводите таз назад и наклоняйтесь с прямой спиной, гантели скользят вдоль ног.','Когда почувствуете натяжение задней поверхности бедра, вернитесь, сжимая ягодицы.'],
   tip:'это наклон за счёт таза, а не приседание. Спина не округляется.',
   frames:[{...STAND,a1:[92,92]},{t:-40,a1:[100,100],a2:[98,98],l1:[60,85],l2:[62,86]}],anchor:'a1',
   props:J=>({f:db(J.w1)})},
- {name:'Жим гантелей сидя',en:'Seated dumbbell press',dose:'3 × 10',
+ {name:'Сгибание ног лёжа',en:'Lying leg curl',dose:'3 × 12',
+  how:['Лягте на живот, колени у края скамьи, валик на задней стороне голеней чуть выше пяток.','Согните ноги, подтягивая пятки к ягодицам.','Медленно опустите.'],
+  tip:'таз прижат к скамье и не поднимается. Опускайте медленнее, чем поднимаете.',
+  mus:[['задняя поверхность бедра'],['икры','ягодицы']],
+  frames:[{t:0,hd:-6,a1:[100,75],a2:[102,77],l1:[180,180,90],l2:[181,181,91]},{t:0,hd:-6,a1:[100,75],a2:[102,77],l1:[180,-70,-160],l2:[181,-68,-158]}],
+  labels:['ноги прямые','пятки к ягодицам'],
+  props:(J,i)=>{const sh=i?-70:180,bk=(sh+90)*RAD,r=[J.a1[0]+Math.cos(bk)*9,J.a1[1]+Math.sin(bk)*9];
+   return{b:bench(J.k1[0]-2,J.n[0]-4,J.p[1]+7.5),f:ln([J.k1[0]-2,J.k1[1]+10],r,'post')+ci(r,6,'eqd')+ln([J.w1[0]-5,J.w1[1]],[J.w1[0]+5,J.w1[1]],'bar')};}},
+ {name:'Жим гантелей сидя',en:'Seated dumbbell press — можно в тренажёре',dose:'3 × 10',
   how:['Сядьте на скамью со спинкой, гантели у плеч, локти чуть впереди корпуса.','Выжмите гантели вверх над головой.','Медленно опустите обратно к плечам.'],
-  tip:'не прогибайтесь в пояснице — спина прижата к спинке.',
+  tip:'не прогибайтесь в пояснице — спина прижата к спинке. Можно заменить на жим вверх в тренажёре.',
   frames:[{t:-90,a1:[70,-90],a2:[74,-92],l1:[0,90],l2:[2,92]},{t:-90,a1:[-88,-90],a2:[-92,-90],l1:[0,90],l2:[2,92]}],
-  props:J=>{const px=J.p[0],py=J.p[1];
-   return{b:rc(px-18,py+7,36,6)+rc(px-21,J.n[1]-4,6,py+13-(J.n[1]-4))+rc(px-3,py+13,6,FLOOR-py-13,'eq',1)+rc(px-24,FLOOR-4,48,4,'eq',1),f:db(J.w1)};}},
+  props:J=>({b:seatProps(J),f:db(J.w1)})},
  {name:'«Мёртвый жук»',en:'Dead bug',dose:'3 × 8 на сторону',
   how:['Лягте на спину, руки вверх к потолку, ноги согнуты под 90°.','Прижмите поясницу к полу.','Медленно опустите одну руку за голову и противоположную ногу вперёд, не касаясь пола. Вернитесь и смените сторону.'],
   tip:'поясница не отрывается от пола. Если отрывается — уменьшите амплитуду.',
   frames:[{t:180,a1:[-90,-90],a2:[-88,-88],l1:[-90,0,-90],l2:[-92,-2,-90]},{t:180,a1:[-90,-90],a2:[-172,-172],l1:[-8,-6,-90],l2:[-92,-2,-90]}],
   props:matOnly},
- {name:'Паллоф-пресс',en:'Pallof press',dose:'3 × 10 на сторону',
-  how:['Встаньте боком к блоку, рукоять на уровне груди, держите её двумя руками у груди.','Выпрямите руки вперёд, сопротивляясь тросу, который тянет вас развернуться.','Задержитесь на 2 секунды и верните руки к груди.'],
-  tip:'корпус и таз не поворачиваются. На схеме трос показан пунктиром: на самом деле блок находится сбоку от вас.',
-  frames:[{...STAND,a1:[80,-55],a2:[82,-53]},{...STAND,a1:[2,0],a2:[4,0]}],anchor:'a1',pad:[50,0],
-  props:J=>{const pl=[J.a1[0]-56,J.n[1]+10];return{b:tx(pl[0],pl[1]-12,'трос сбоку'),f:ln(pl,J.w1,'cb dash')+pulley(pl)+ci(J.w1,3.5,'eqd')};}}
+ {name:'Планка с касанием плеча',en:'Plank shoulder taps',dose:'3 × 10 на сторону',
+  how:['Встаньте в планку на прямых руках: ладони под плечами, стопы чуть шире таза.','Оторвите одну ладонь от пола и коснитесь ею противоположного плеча.','Верните руку и смените сторону.'],
+  tip:'таз не раскачивается из стороны в сторону, это главное в упражнении. Лёгкий вариант — с опорой на колени.',
+  frames:[HIGHPLANK,{...HIGHPLANK,a1:[60,-150]}],labels:['планка','касание плеча'],anchor:'w2',props:matOnly}
  ]},
 {id:'b',label:'Б',sub:'ягодицы + грудь, руки',title:'Тренировка Б',
  intro:'Та же разминка. Упражнения 6 и 7 делайте суперсетом: одно сразу за другим, потом отдых 60–90 секунд.',
  items:[
- {name:'Ягодичный мост со штангой',en:'Hip thrust',dose:'3 × 10–12',
+ {name:'Ягодичный мост со штангой',en:'Hip thrust — или в тренажёре для ягодичного моста',dose:'3 × 10–12',
   how:['Обопритесь лопатками о край скамьи, стопы на полу, гриф на сгибе бёдер (с мягкой накладкой).','Поднимите таз до прямой линии от плеч до колен, сожмите ягодицы на секунду.','Опуститесь, не касаясь пола тазом.'],
-  tip:'вверху голени вертикальны, подбородок прижат, поясница не прогибается. Начать можно с гантели или в тренажёре.',
+  tip:'вверху голени вертикальны, подбородок прижат, поясница не прогибается. В тренажёре движение то же, только без штанги.',
   frames:[{t:-150,a1:[40,20],a2:[42,22],l1:[-35,95],l2:[-33,97]},{t:180,a1:[10,-10],a2:[12,-8],l1:[0,90],l2:[2,92]}],anchor:'a1',pad:[26,0],
   props:J=>{const rx=J.a1[0]-56,top=FLOOR-27,c=[J.p[0],J.p[1]-15];return{b:bench(rx-42,rx,top),f:ci(c,12,'plate')+ci(c,3,'hub')};}},
  {name:'Болгарские сплит-приседы',en:'Bulgarian split squat',dose:'3 × 8–10 на ногу',
@@ -225,31 +296,39 @@ const TABS=[
   tip:'колено передней ноги смотрит в сторону носка. Можно держаться за опору. Лёгкий вариант — обычные выпады назад.',
   frames:[{t:-90,a1:[90,90],a2:[92,92],l1:[90,90],l2:[120,170,180]},{t:-80,a1:[92,92],a2:[94,94],l1:[15,100],l2:[100,-131,180]}],anchor:'a1',
   props:J=>({b:bench(J.a2[0]-28,J.a2[0]+8,FLOOR-28),f:db(J.w1)})},
- {name:'Жим гантелей лёжа',en:'Dumbbell bench press',dose:'3 × 10',
-  how:['Лягте на горизонтальную скамью, стопы на полу, гантели над грудью.','Опустите их к бокам груди, локти под углом около 45° к корпусу.','Выжмите гантели вверх.'],
-  tip:'лопатки сведены и прижаты к скамье.',
-  frames:[{t:180,a1:[30,-90],a2:[32,-88],l1:[30,90],l2:[34,92]},{t:180,a1:[-90,-90],a2:[-88,-88],l1:[30,90],l2:[34,92]}],anchor:'a1',
-  props:J=>({b:bench(J.n[0]-26,J.p[0]+14,J.n[1]+7.5),f:db(J.w1)})},
- {name:'Тяга гантели одной рукой',en:'One-arm dumbbell row',dose:'3 × 10 на руку',
-  how:['Поставьте колено и ладонь одной стороны на скамью, другая нога стоит на полу.','Спина параллельна полу, рука с гантелью висит вниз.','Тяните гантель к поясу, ведя локоть вверх и назад вдоль тела. Опустите медленно.'],
-  tip:'корпус не разворачивается. Тянет спина, а не рука.',
-  frames:[{t:-15,hd:-10,a1:[90,90],a2:[90,90],l1:[100,95],l2:[90,180,180]},{t:-15,hd:-10,a1:[-150,90],a2:[90,90],l1:[100,95],l2:[90,180,180]}],anchor:'a1',
-  props:J=>({b:bench(J.a2[0]-6,J.w2[0]+8,J.k2[1]+5),f:db(J.w1)})},
- {name:'Тяга каната к лицу',en:'Face pull',dose:'3 × 15',
-  how:['Установите блок выше головы, возьмите канат хватом сверху.','Тяните канат к лицу, разводя руки в стороны, локти высоко.','В конце кисти у висков, лопатки сведены. Плавно верните.'],
-  tip:'берите лёгкий вес: это упражнение для осанки и задней части плеч.',
-  frames:[{...STAND,t:-88,a1:[-25,-25],a2:[-22,-22]},{...STAND,t:-92,a1:[180,-60],a2:[176,-62]}],anchor:'a1',pad:[0,44],
-  props:J=>{const x=J.a1[0]+74,pl=[x,J.n[1]-30];return{b:column(x+3),f:ln(pl,J.w1)+pulley(pl)+ln(J.w1,[J.w1[0]+4,J.w1[1]+9],'bar')};}},
+ {name:'Отведение ног в тренажёре',en:'Hip abduction machine',dose:'3 × 15',
+  how:['Сядьте, прижмитесь спиной к спинке, подушки — с внешней стороны колен.','Разведите колени в стороны как можно шире.','Задержитесь на секунду и медленно сведите ноги, не давая грузу упасть.'],
+  tip:'схема — вид спереди. Не помогайте себе корпусом. Если слегка наклониться вперёд, сильнее работают ягодицы.',
+  mus:[['боковые ягодичные'],['ягодицы']],
+  frames:[{t:-90,sw:12,hw:8,front:true,thl:10,a1:[75,95],a2:[105,85],l1:[70,92,10],l2:[110,88,170]},{t:-90,sw:12,hw:8,front:true,thl:10,a1:[75,95],a2:[105,85],l1:[22,80,10],l2:[158,100,170]}],
+  labels:['колени вместе','развести'],
+  props:J=>{const p=J.p;return{b:rc(J.n[0]-17,J.n[1]-8,34,p[1]-J.n[1]+8,'eq',4)+rc(p[0]-28,p[1]+6,56,6,'eq',2)+rc(p[0]-3,p[1]+12,6,FLOOR-p[1]-12,'eq',1)+rc(p[0]-26,FLOOR-4,52,4,'eq',1),
+    f:rc(J.k1[0]+5,J.k1[1]-8,5,16,'eqd',2)+rc(J.k2[0]-10,J.k2[1]-8,5,16,'eqd',2)};}},
+ {name:'Жим от груди в тренажёре',en:'Chest press machine',dose:'3 × 10–12',
+  how:['Отрегулируйте сиденье так, чтобы рукояти были на уровне середины груди.','Прижмите спину к спинке и выжмите рукояти вперёд.','Медленно верните, пока кисти не окажутся у груди.'],
+  tip:'лопатки прижаты к спинке, локти чуть ниже уровня плеч.',
+  mus:[['грудные мышцы'],['трицепс','передняя часть плеч']],
+  frames:[{t:-90,a1:[150,-5],a2:[147,-3],l1:[0,90],l2:[2,92]},{t:-90,a1:[6,4],a2:[8,6],l1:[0,90],l2:[2,92]}],pad:[0,22],
+  props:J=>{const cx=J.n[0]+64,top=[cx,J.n[1]-24];
+   return{b:seatProps(J)+rc(cx-3,top[1],6,FLOOR-top[1],'eq',2),f:ln(top,J.w1,'post')+ln([J.w1[0],J.w1[1]-7],[J.w1[0],J.w1[1]+7],'bar')};}},
+ {name:'Обратная «бабочка»',en:'Reverse pec deck',dose:'3 × 12–15',
+  how:['Сядьте лицом к тренажёру, грудью к спинке. Руки вытянуты вперёд, ладони на рукоятях.','Разведите почти прямые руки в стороны и назад до линии плеч.','Сведите лопатки, задержитесь на секунду и плавно верните.'],
+  tip:'схема — вид со спины. Берите лёгкий вес, руки почти прямые, плечи не поднимаются к ушам. Это упражнение для осанки.',
+  mus:[['задняя часть плеч','мышцы между лопатками'],['нижняя часть трапеции']],
+  frames:[{t:-90,sw:12,hw:8,front:true,thl:6,ua:7,fa:6,a1:[-15,0],a2:[195,180],l1:[80,90,10],l2:[100,90,170]},{t:-90,sw:12,hw:8,front:true,thl:6,a1:[0,0],a2:[180,180],l1:[80,90,10],l2:[100,90,170]}],
+  labels:['руки перед собой','развести в стороны'],
+  props:J=>{const p=J.p,g=w=>ln([w[0],w[1]-7],[w[0],w[1]+7],'bar');
+   return{b:rc(J.n[0]-5,-18,10,J.n[1]+18,'eq',3)+rc(p[0]-26,p[1]+6,52,6,'eq',2)+rc(p[0]-3,p[1]+12,6,FLOOR-p[1]-12,'eq',1)+rc(p[0]-26,FLOOR-4,52,4,'eq',1),f:g(J.w1)+g(J.w2)};}},
  {name:'Сгибание рук с гантелями',en:'Biceps curl',dose:'2–3 × 12–15',
   how:['Встаньте прямо, гантели в опущенных руках.','Сгибайте руки в локтях, поднимая гантели к плечам.','Опускайте медленно.'],
   tip:'локти прижаты к корпусу и не уходят вперёд, корпус не раскачивается.',
   frames:[{...STAND,a1:[90,88]},{...STAND,a1:[95,-70],a2:[93,-72]}],anchor:'a1',
   props:J=>({f:db(J.w1)})},
- {name:'Разгибание рук на блоке',en:'Triceps pushdown',dose:'2–3 × 12–15',
-  how:['Встаньте лицом к верхнему блоку, рукоять у груди, локти прижаты к бокам.','Разогните руки вниз до конца и задержитесь на секунду.','Вернитесь до угла 90° в локте.'],
-  tip:'двигаются только предплечья. Делайте сразу после сгибаний, без паузы.',
-  frames:[{...STAND,t:-84,a1:[95,-35],a2:[93,-37]},{...STAND,t:-84,a1:[95,88],a2:[93,88]}],anchor:'a1',pad:[0,34],
-  props:J=>{const x=J.n[0]+28,pl=[x,-14];return{b:column(x+4),f:ln(pl,J.w1)+pulley(pl)+ln([J.w1[0]-6,J.w1[1]],[J.w1[0]+9,J.w1[1]],'bar')};}},
+ {name:'Разгибание гантели из-за головы',en:'Overhead triceps extension',dose:'2–3 × 12–15',
+  how:['Сядьте на скамью со спинкой, возьмите одну гантель двумя руками и выпрямите руки над головой.','Не двигая плечами, согните руки в локтях и опустите гантель за голову.','Разогните руки обратно вверх.'],
+  tip:'локти смотрят вперёд и не разъезжаются в стороны. Делайте сразу после сгибаний, без паузы.',
+  frames:[{t:-90,a1:[-94,-94],a2:[-92,-92],l1:[0,90],l2:[2,92]},{t:-90,a1:[-100,100],a2:[-98,102],l1:[0,90],l2:[2,92]}],
+  props:J=>({b:seatProps(J,J.n[1]+6),f:db(J.w1,true)})},
  {name:'Боковая планка',en:'Side plank',dose:'3 × 20–40 сек на сторону',
   how:['Лягте на бок, локоть под плечом, ноги вытянуты.','Поднимите таз, чтобы тело стало прямой линией от головы до стоп.','Держите, дыша ровно. Свободную руку поднимите вверх или положите на талию.'],
   tip:'таз не провисает. Лёгкий вариант — с опорой на нижнее колено.',
@@ -325,6 +404,85 @@ const TABS=[
  ]}
 ];
 
+const findEx=n=>TABS.flatMap(t=>t.items).find(x=>x.name===n);
+TABS.push({id:'abs',label:'Пресс',sub:'на коврике',title:'Пресс на коврике',pick:true,
+ intro:'Выберите 4–6 упражнений и отметьте их кнопкой «Добавить». Делайте кругом: каждое упражнение по указанной дозировке, 20–30 секунд отдыха, 2–3 круга. Это 10–15 минут: можно в конце тренировки в зале или отдельно дома. Точки рядом с названием показывают сложность.',
+ note:'Пока вы готовитесь к беременности, особенно полезны упражнения на глубокие мышцы: втягивание живота, «мёртвый жук», медвежья планка, планки. Когда беременность наступит, скручивания, велосипед, ножницы, подъёмы ног и «лодочку» обычно убирают. Что оставить, лучше обсудить с врачом.',
+ items:[
+ {name:'Втягивание живота на четвереньках',en:'Abdominal draw-in',level:1,dose:'10 × 5 сек',
+  how:['Встаньте на четвереньки, спина ровная.','На вдохе расслабьте живот.','На выдохе подтяните пупок к позвоночнику и держите 5 секунд, продолжая спокойно дышать.'],
+  tip:'спина не двигается и не округляется, работает только живот. Это база для всех остальных упражнений на пресс.',
+  mus:[['глубокие мышцы пресса'],['мышцы тазового дна']],
+  frames:[FOURS,FOURS],labels:['вдох, живот расслаблен','выдох, пупок внутрь'],
+  props:(J,i)=>{const m=[(J.n[0]+J.p[0])/2,(J.n[1]+J.p[1])/2],ry=i?2.5:6;return{b:mat(J)+`<ellipse cx="${fx(m[0])}" cy="${fx(m[1]+6.5+ry)}" rx="13" ry="${ry}" class="hl"/>`};}},
+ {...findEx('«Мёртвый жук»'),level:1,dose:'8 на сторону'},
+ {name:'Медвежья планка',en:'Bear plank',level:1,dose:'20–30 сек',
+  how:['Встаньте на четвереньки, подогните пальцы ног.','Втяните живот и приподнимите колени на 2–3 см от пола.','Держите, дыша ровно.'],
+  tip:'спина остаётся ровной, таз не поднимается выше плеч.',
+  mus:[['глубокие мышцы пресса','прямая мышца живота'],['плечи','передняя поверхность бедра']],
+  frames:[{...FOURS,l1:[90,180,135],l2:[91,180,135]},{t:-14,hd:-8,a1:[90,90],a2:[91,91],l1:[95,172,180],l2:[96,172,180]}],labels:['исходное','колени над полом'],anchor:'w1',props:matOnly},
+ {...findEx('Обратные скручивания'),level:1,dose:'12–15 раз'},
+ {name:'Скручивания',en:'Crunch',level:1,dose:'15 раз',
+  how:['Лягте на спину, колени согнуты, стопы на полу, руки вдоль тела.','На выдохе оторвите голову и лопатки от пола, тянитесь руками к коленям.','Медленно опуститесь.'],
+  tip:'поясница остаётся на полу. Поднимается только верх спины, не нужно садиться.',
+  mus:[['прямая мышца живота'],['косые мышцы живота']],
+  frames:[SUP,{...SUP,t:-150,a1:[-5,-5],a2:[-3,-3]}],labels:['исходное','лопатки над полом'],props:matOnly},
+ {...findEx('Планка на предплечьях'),level:1,dose:'30–45 сек'},
+ {name:'Велосипед',en:'Bicycle crunch',level:2,dose:'20 раз (по 10 на сторону)',
+  how:['Лягте на спину, кисти у висков, лопатки приподняты.','Подтяните одно колено к груди и потянитесь к нему противоположным плечом, другую ногу выпрямите.','Смените сторону, как будто крутите педали.'],
+  tip:'двигайтесь медленно. Поворачивается корпус, а не только локоть. Не тяните голову руками.',
+  mus:[['косые мышцы живота','прямая мышца живота'],['сгибатели бедра']],
+  frames:[{t:-155,a1:[-40,162],a2:[-38,164],l1:[-120,0,-60],l2:[-15,-15,-60]},{t:-155,a1:[-40,162],a2:[-38,164],l1:[-15,-15,-60],l2:[-120,0,-60]}],labels:['одно колено','другое колено'],props:matOnly},
+ {name:'Ножницы',en:'Flutter kicks',level:2,dose:'20–30 сек',
+  how:['Лягте на спину, ладони под ягодицами.','Приподнимите прямые ноги над полом.','Поочерёдно поднимайте и опускайте ноги небольшими движениями.'],
+  tip:'поясница прижата к полу. Если она отрывается, поднимите ноги выше.',
+  mus:[['нижняя часть пресса'],['сгибатели бедра','передняя поверхность бедра']],
+  frames:[{...SUP,l1:[-35,-35,-80],l2:[-12,-12,-80]},{...SUP,l1:[-12,-12,-80],l2:[-35,-35,-80]}],labels:['вверх-вниз','смена ног'],props:matOnly},
+ {...findEx('Боковая планка'),level:2,dose:'20–30 сек на сторону'},
+ {name:'«Альпинист»',en:'Mountain climber',level:2,dose:'30 сек',
+  how:['Встаньте в планку на прямых руках, ладони под плечами.','Подтяните одно колено к груди.','Верните ногу и смените сторону. Начните медленно, затем ускорьтесь.'],
+  tip:'таз не задирается вверх, плечи над ладонями.',
+  mus:[['мышцы пресса','сгибатели бедра'],['плечи','сердце и выносливость']],
+  frames:[{t:-26.8,a1:[90,90],a2:[91,91],l1:[153.2,153.2,110],l2:[153.6,153.6,110]},{t:-26.8,a1:[90,90],a2:[91,91],l1:[35,180,100],l2:[153.6,153.6,110]}],labels:['планка','колено к груди'],anchor:'w1',props:matOnly},
+ {name:'Подъёмы прямых ног',en:'Lying leg raise',level:3,dose:'10 раз',
+  how:['Лягте на спину, руки вдоль тела или ладони под ягодицами.','Поднимите прямые ноги до вертикали.','Медленно опустите их, не касаясь пола.'],
+  tip:'самое сложное — не дать пояснице оторваться на опускании. Если не получается, согните ноги в коленях.',
+  mus:[['нижняя часть пресса','сгибатели бедра'],[]],
+  frames:[{...SUP,l1:[-8,-8,-80],l2:[-7,-7,-80]},{...SUP,l1:[-88,-88,180],l2:[-87,-87,180]}],labels:['ноги над полом','вертикально'],props:matOnly},
+ {name:'«Лодочка»',en:'Hollow body hold',level:3,dose:'15–30 сек',
+  how:['Лягте на спину и прижмите поясницу к полу.','Приподнимите лопатки и ноги. Лёгкий вариант — ноги согнуты, руки тянутся к коленям.','В полном варианте ноги прямые, руки за головой. Держите положение.'],
+  tip:'поясница всё время прижата. Чем ниже ноги, тем тяжелее.',
+  mus:[['прямая мышца живота','глубокие мышцы пресса'],['сгибатели бедра']],
+  frames:[{t:-160,a1:[-8,-8],a2:[-6,-6],l1:[-90,0,-90],l2:[-92,-2,-90]},{t:-162,a1:[-170,-170],a2:[-168,-168],l1:[-18,-18,-70],l2:[-17,-17,-70]}],labels:['легче','полная'],props:matOnly}
+ ]});
+const PICKBAR='<div class="pickbar"><span id="pcount">Пока ничего не выбрано</span><button class="pbtn" id="onlyPicked" aria-pressed="false">Показать только выбранные</button><button class="pbtn" id="clearPicks">Сбросить выбор</button></div><p class="empty" id="pempty" hidden>Вы ещё ничего не выбрали. Нажмите «Добавить в мою тренировку» на нужных карточках.</p>';
+const MUSCLES={
+'Планка с касанием плеча':[['косые мышцы живота','глубокие мышцы пресса'],['плечи','ягодицы']],
+'Разгибание гантели из-за головы':[['трицепс'],['мышцы корпуса']],
+'Румынская тяга с гантелями':[['задняя поверхность бедра','ягодицы'],['мышцы вдоль позвоночника','предплечья (хват)']],
+'Жим гантелей сидя':[['плечи (дельты)'],['трицепс','верх трапеции']],
+'«Мёртвый жук»':[['глубокие мышцы пресса'],['прямая мышца живота']],
+'Ягодичный мост со штангой':[['ягодицы'],['задняя поверхность бедра','передняя поверхность бедра']],
+'Болгарские сплит-приседы':[['передняя поверхность бедра','ягодицы'],['боковые ягодичные','внутренняя поверхность бедра']],
+'Сгибание рук с гантелями':[['бицепс'],['предплечья']],
+'Боковая планка':[['косые мышцы живота'],['боковые ягодичные','плечи']],
+'«Птица-собака»':[['мышцы вдоль позвоночника','ягодицы'],['глубокие мышцы пресса','плечи']],
+'Планка на предплечьях':[['мышцы пресса'],['плечи','ягодицы','передняя поверхность бедра']],
+'Обратные скручивания':[['нижняя часть пресса'],['сгибатели бедра']],
+'Ягодичный мост на одной ноге':[['ягодицы'],['задняя поверхность бедра','боковые ягодичные']],
+'Отжимания от скамьи':[['трицепс'],['грудные мышцы','передняя часть плеч']],
+'«Супермен»':[['мышцы вдоль позвоночника','ягодицы'],['задняя часть плеч','задняя поверхность бедра']],
+'Ходьба в горку':[['ягодицы','икры','сердце и выносливость'],['задняя поверхность бедра']],
+'Дыхание животом':[['диафрагма'],['глубокие мышцы пресса']],
+'«Кошка-корова»':[['подвижность позвоночника'],['мышцы спины','мышцы пресса']],
+'«Открытая книга»':[['подвижность грудного отдела'],['растяжка грудных мышц']],
+'Ягодичный мост':[['ягодицы'],['задняя поверхность бедра']],
+'Растяжка сгибателей бедра':[['растяжка сгибателей бедра'],['передняя поверхность бедра']],
+'«Ангелы» у стены':[['мышцы между лопатками','осанка'],['мелкие мышцы плечевого сустава','растяжка грудных мышц']],
+'Упражнения Кегеля':[['мышцы тазового дна'],[]]
+};
+function muscles(ex){const m=ex.mus||MUSCLES[ex.name];if(!m)return'';
+  return `<div class="mus" aria-label="Работающие мышцы">${m[0].map(x=>`<i class="chip main">${x}</i>`).join('')}${m[1].map(x=>`<i class="chip">${x}</i>`).join('')}</div>`;}
 function frameSVG(ex,J,i,label){
   const P=ex.frames[i], pr=ex.props?ex.props(J,i):{};
   const floor=(P.view==='top'||ex.noFloor)?'':`<line x1="0" y1="${FLOOR}" x2="${W}" y2="${FLOOR}" class="floor"/>`;
@@ -332,15 +490,18 @@ function frameSVG(ex,J,i,label){
   if(ex.rot) inner=`<g transform="rotate(${ex.rot} ${W/2} ${FLOOR})">${inner}</g>`;
   return `<figure><svg viewBox="0 ${VBY} ${W} ${VBH}" role="img" aria-label="${ex.name}: ${label}">${floor}${inner}</svg><figcaption>${label}</figcaption></figure>`;
 }
-function card(ex,idx){
+function card(ex,idx,tab){
   const Js=layout(ex), labels=ex.labels||['старт','финиш'];
   const fr=Js.map((J,i)=>frameSVG(ex,J,i,labels[i]));
   const frames=fr.length>1?`<div class="frames">${fr[0]}<span class="arr" aria-hidden="true">→</span>${fr[1]}</div>`:`<div class="frames one">${fr[0]}</div>`;
-  return `<article class="card"><div class="chead"><span class="num">${idx+1}</span><div><h3>${ex.name}</h3><p class="en">${ex.en}</p></div><span class="dose">${ex.dose}</span></div>${frames}<ol class="how">${ex.how.map(s=>`<li>${s}</li>`).join('')}</ol><p class="tip"><b>Важно:</b> ${ex.tip}</p></article>`;
+  return `<article class="card"><div class="chead"><span class="num"><b>${idx+1}</b><small>упр.</small></span><div><h3>${ex.name}</h3><p class="en">${ex.en}${ex.level?` · <span class="lvl" title="сложность">${'●'.repeat(ex.level)+'○'.repeat(3-ex.level)} ${['','лёгкое','среднее','сложное'][ex.level]}</span>`:''}</p></div><span class="dose">${ex.dose}</span></div>${muscles(ex)}${frames}<ol class="how">${ex.how.map(s=>`<li>${s}</li>`).join('')}</ol><p class="tip"><b>Важно:</b> ${ex.tip}</p>${tab&&tab.pick?`<button class="pick" data-name="${ex.name}" aria-pressed="false">+ Добавить в мою тренировку</button>`:''}</article>`;
 }
+const plural=(n,a,b,c)=>{const m=n%10,h=n%100;return n+' '+(m===1&&h!==11?a:m>=2&&m<=4&&(h<12||h>14)?b:c);};
+const uniq=new Set(TABS.flatMap(t=>t.items.map(x=>x.name))).size;
+document.getElementById('stats').innerHTML=[plural(TABS.length,'вкладка','вкладки','вкладок'),plural(uniq,'упражнение','упражнения','упражнений'),'тренажёры, гантели, коврик'].map(s=>`<span class="stat">${s}</span>`).join('');
 const tabsEl=document.getElementById('tabs'), main=document.getElementById('main');
 tabsEl.innerHTML=TABS.map(t=>`<button class="tab" role="tab" id="tab-${t.id}" aria-controls="sec-${t.id}" data-id="${t.id}"><b>${t.label}</b><small>${t.sub}</small></button>`).join('');
-main.innerHTML=TABS.map(t=>`<section id="sec-${t.id}" role="tabpanel" aria-labelledby="tab-${t.id}"><div class="intro"><h2>${t.title}</h2><p>${t.intro}</p></div><div class="grid">${t.items.map(card).join('')}</div></section>`).join('')
+main.innerHTML=TABS.map(t=>`<section id="sec-${t.id}" role="tabpanel" aria-labelledby="tab-${t.id}"><div class="intro"><span class="eyebrow">${t.sub}</span><h2>${t.title}</h2><p>${t.intro}</p></div>${t.pick?PICKBAR:''}<div class="grid">${t.items.map((ex,i)=>card(ex,i,t)).join('')}</div>${t.note?`<p class="foot">${t.note}</p>`:''}</section>`).join('')
  +`<p class="foot">Схемы условные и показывают общую траекторию движения. На первых занятиях попросите тренера в зале поставить технику, особенно в румынской тяге и ягодичном мосте со штангой.</p>`;
 function show(id){
   if(!TABS.some(t=>t.id===id)) id='a';
@@ -351,6 +512,25 @@ tabsEl.addEventListener('click',e=>{const b=e.target.closest('.tab');if(!b)retur
 let start=(location.hash||'').slice(1);
 if(!start){try{start=localStorage.getItem('atlas-tab')||''}catch(e){}}
 show(start||'a');
+let picks=new Set(), onlyPicked=false;
+try{picks=new Set(JSON.parse(localStorage.getItem('atlas-picks')||'[]'))}catch(e){}
+function syncPicks(){
+  document.querySelectorAll('.pick').forEach(b=>{const on=picks.has(b.dataset.name),c=b.closest('.card');
+    b.setAttribute('aria-pressed',on);b.textContent=on?'✓ В моей тренировке':'+ Добавить в мою тренировку';
+    c.classList.toggle('picked',on);c.hidden=onlyPicked&&!on;});
+  const n=document.querySelectorAll('.pick[aria-pressed="true"]').length;
+  document.getElementById('pcount').textContent=n?`Выбрано: ${n}`:'Пока ничего не выбрано';
+  document.getElementById('onlyPicked').setAttribute('aria-pressed',onlyPicked);
+  document.getElementById('pempty').hidden=!(onlyPicked&&!n);
+  try{localStorage.setItem('atlas-picks',JSON.stringify([...picks]))}catch(e){}
+}
+main.addEventListener('click',e=>{
+  const b=e.target.closest('.pick');
+  if(b){const k=b.dataset.name;picks.has(k)?picks.delete(k):picks.add(k);syncPicks();return;}
+  if(e.target.closest('#onlyPicked')){onlyPicked=!onlyPicked;syncPicks();}
+  if(e.target.closest('#clearPicks')){picks.clear();onlyPicked=false;syncPicks();}
+});
+syncPicks();
 </script>
 
 </body></html>
